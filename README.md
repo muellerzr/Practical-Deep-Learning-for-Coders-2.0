@@ -6,3 +6,6 @@ This course is originally done by Jeremy Howard and Rachel Thomas.
 The course can be found here: https://course.fast.ai
 
 The Fast.AI forums can be found at: https://forums.fast.ai
+
+
+The notebooks will run in google colab
