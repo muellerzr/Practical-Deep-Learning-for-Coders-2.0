@@ -33,7 +33,7 @@ def nms(boxes, scores, thresh=0.5):
         boxes, scores, indexes = boxes[mask_keep], scores[mask_keep], indexes[mask_keep]
     return LongTensor(to_keep)
 
-def process_output(output, i, scales, detect_thresh=0.25):
+def process_output(output, i, scales, ratios, detect_thresh=0.25):
     clas_pred,bbox_pred,sizes = output[0][i], output[1][i], output[2]
     anchors = create_anchors(sizes, ratios, scales).to(clas_pred.device)
     bbox_pred = activ_to_bbox(bbox_pred, anchors)
