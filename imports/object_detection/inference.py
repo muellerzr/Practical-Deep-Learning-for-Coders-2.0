@@ -44,8 +44,8 @@ def process_output(output, i, scales, detect_thresh=0.25):
     scores, preds = clas_pred.max(1)
     return bbox_pred, scores, preds
 
-def show_preds(img, output, idx, scales, detect_thresh=0.25, classes=None):
-    bbox_pred, scores, preds = process_output(output, idx, scales, detect_thresh)
+def show_preds(img, output, idx, scales, ratios, detect_thresh=0.25, classes=None):
+    bbox_pred, scores, preds = process_output(output, idx, scales, ratios, detect_thresh)
     to_keep = nms(bbox_pred, scores)
     bbox_pred, preds, scores = bbox_pred[to_keep].cpu(), preds[to_keep].cpu(), scores[to_keep].cpu()
     t_sz = torch.Tensor([*img.size])[None].float()
