@@ -2,6 +2,8 @@ from torch import nn
 from .utils import *
 import numpy as np
 from fastai2.callback.hook import *
+from fastai2.layers import *
+
 
 def _get_sfs_idxs(sizes):
     "Get the indexes of the layers where the size of the activation changes."
@@ -15,7 +17,7 @@ class LateralUpsampleMerge(nn.Module):
     def __init__(self, ch, ch_lat, hook):
         super().__init__()
         self.hook = hook
-        self.conv_lat = conv2d(ch_lat, ch, ks=1, bias=True)
+        self.conv_lat = ConvLayer(ch_lat, ch, ks=1, bias=True)
     
     def forward(self, x):
         return self.conv_lat(self.hook.stored) + F.interpolate(x, self.hook.stored.shape[-2:], mode='nearest')
@@ -30,19 +32,19 @@ class RetinaNet(nn.Module):
         sfs_idxs = list(reversed(_get_sfs_idxs(sfs_szs)))
         self.sfs = hook_outputs([encoder[i] for i in sfs_idxs])
         self.encoder = encoder
-        self.c5top5 = conv2d(sfs_szs[-1][1], chs, ks=1, bias=True)
-        self.c5top6 = conv2d(sfs_szs[-1][1], chs, stride=2, bias=True)
-        self.p6top7 = nn.Sequential(nn.ReLU(), conv2d(chs, chs, stride=2, bias=True))
+        self.c5top5 = ConvLayer(sfs_szs[-1][1], chs, ks=1, bias=True)
+        self.c5top6 = ConvLayer(sfs_szs[-1][1], chs, stride=2, bias=True)
+        self.p6top7 = nn.Sequential(nn.ReLU(), ConvLayer(chs, chs, stride=2, bias=True))
         self.merges = nn.ModuleList([LateralUpsampleMerge(chs, sfs_szs[idx][1], hook) 
                                      for idx,hook in zip(sfs_idxs[-2:-4:-1], self.sfs[-2:-4:-1])])
-        self.smoothers = nn.ModuleList([conv2d(chs, chs, 3, bias=True) for _ in range(3)])
+        self.smoothers = nn.ModuleList([ConvLayer(chs, chs, 3, bias=True) for _ in range(3)])
         self.classifier = self._head_subnet(n_classes, n_anchors, final_bias, chs=chs)
         self.box_regressor = self._head_subnet(4, n_anchors, 0., chs=chs)
         
     def _head_subnet(self, n_classes, n_anchors, final_bias=0., n_conv=4, chs=256):
         "Helper function to create one of the subnet for regression/classification."
         layers = [ConvLayer(chs, chs, bias=True, norm_type=None) for _ in range(n_conv)]
-        layers += [conv2d(chs, n_classes * n_anchors, bias=True)]
+        layers += [ConvLayer(chs, n_classes * n_anchors, bias=True)]
         layers[-1].bias.data.zero_().add_(final_bias)
         layers[-1].weight.data.fill_(0)
         return nn.Sequential(*layers)
