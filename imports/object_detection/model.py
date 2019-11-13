@@ -3,6 +3,7 @@ from .utils import *
 import numpy as np
 from fastai2.callback.hook import *
 from fastai2.layers import *
+import torch.nn.functional as F
 
 
 def _get_sfs_idxs(sizes):
