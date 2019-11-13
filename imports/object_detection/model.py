@@ -1,5 +1,6 @@
 from torch import nn
 from .utils import *
+from fastai2.callback.hook import *
 
 class LateralUpsampleMerge(nn.Module):
     "Merge the features coming from the downsample path (in `hook`) with the upsample path."
