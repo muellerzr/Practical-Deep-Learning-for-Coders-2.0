@@ -33,7 +33,7 @@ def nms(boxes, scores, thresh=0.5):
         boxes, scores, indexes = boxes[mask_keep], scores[mask_keep], indexes[mask_keep]
     return LongTensor(to_keep)
 
-def process_output(output, i, detect_thresh=0.25):
+def process_output(output, i, scales, detect_thresh=0.25):
     clas_pred,bbox_pred,sizes = output[0][i], output[1][i], output[2]
     anchors = create_anchors(sizes, ratios, scales).to(clas_pred.device)
     bbox_pred = activ_to_bbox(bbox_pred, anchors)
@@ -44,8 +44,8 @@ def process_output(output, i, detect_thresh=0.25):
     scores, preds = clas_pred.max(1)
     return bbox_pred, scores, preds
 
-def show_preds(img, output, idx, detect_thresh=0.25, classes=None):
-    bbox_pred, scores, preds = process_output(output, idx, detect_thresh)
+def show_preds(img, output, idx, scales, detect_thresh=0.25, classes=None):
+    bbox_pred, scores, preds = process_output(output, idx, scales, detect_thresh)
     to_keep = nms(bbox_pred, scores)
     bbox_pred, preds, scores = bbox_pred[to_keep].cpu(), preds[to_keep].cpu(), scores[to_keep].cpu()
     t_sz = torch.Tensor([*img.size])[None].float()
