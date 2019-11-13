@@ -12,6 +12,11 @@ def _get_sfs_idxs(sizes):
     if feature_szs[0] != feature_szs[1]: sfs_idxs = [0] + sfs_idxs
     return sfs_idxs
 
+def conv2d(ni:int, nf:int, ks:int=3, stride:int=1, padding:int=None, bias=False, init=nn.init.kaiming_normal_) -> nn.Conv2d:
+    "Create and initialize `nn.Conv2d` layer. `padding` defaults to `ks//2`."
+    if padding is None: padding = ks//2
+    return init_default(nn.Conv2d(ni, nf, kernel_size=ks, stride=stride, padding=padding, bias=bias), init)
+
 class LateralUpsampleMerge(nn.Module):
     "Merge the features coming from the downsample path (in `hook`) with the upsample path."
     def __init__(self, ch, ch_lat, hook):
