@@ -4,13 +4,6 @@ import torch.nn.functional as F
 from .utils import *
 from fastai2.core.utils import ifnone
 
-def IoU_values(anchs, targs):
-    "Compute the IoU values of `anchors` by `targets`."
-    inter = intersection(anchs, targs)
-    anc_sz, tgt_sz = anchs[:,2] * anchs[:,3], targs[:,2] * targs[:,3]
-    union = anc_sz.unsqueeze(1) + tgt_sz.unsqueeze(0) - inter
-    return inter/(union+1e-8)
-
 class RetinaNetFocalLoss(nn.Module):
     def __init__(self, gamma:float=2., alpha:float=0.25,  pad_idx:int=0, scales=None, ratios=None, reg_loss=F.smooth_l1_loss):
         super().__init__()

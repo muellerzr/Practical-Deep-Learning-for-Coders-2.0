@@ -6,6 +6,15 @@ from cycler import cycler
 from .model import *
 import math
 
+
+
+def IoU_values(anchs, targs):
+    "Compute the IoU values of `anchors` by `targets`."
+    inter = intersection(anchs, targs)
+    anc_sz, tgt_sz = anchs[:,2] * anchs[:,3], targs[:,2] * targs[:,3]
+    union = anc_sz.unsqueeze(1) + tgt_sz.unsqueeze(0) - inter
+    return inter/(union+1e-8)
+
 def create_grid(size):
     "Create a grid of a given `size`."
     H, W = size
