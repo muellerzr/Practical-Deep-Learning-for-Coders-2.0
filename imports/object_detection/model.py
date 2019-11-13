@@ -1,4 +1,4 @@
-import torch.nn
+from torch import nn
 from .utils import *
 
 class LateralUpsampleMerge(nn.Module):
