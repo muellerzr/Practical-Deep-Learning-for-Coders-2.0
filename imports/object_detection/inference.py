@@ -1,6 +1,7 @@
 from matplotlib import patches, patheffects
 from .utils import IoU_values
 import torch
+import matplotlib as plt
 from torch import FloatTensor, LongTensor, tensor
 
 
