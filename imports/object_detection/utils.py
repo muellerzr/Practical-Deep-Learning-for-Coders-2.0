@@ -3,7 +3,7 @@ import matplotlib.cm as cmx
 import matplotlib.colors as mcolors
 from cycler import cycler
 from .model import *
-
+import math
 
 def create_grid(size):
     "Create a grid of a given `size`."
