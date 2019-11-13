@@ -3,6 +3,7 @@ from .utils import IoU_values
 import torch
 import matplotlib.pyplot as plt
 from torch import FloatTensor, LongTensor, tensor
+from .utils import *
 
 
 def _draw_outline(o, lw:int):
