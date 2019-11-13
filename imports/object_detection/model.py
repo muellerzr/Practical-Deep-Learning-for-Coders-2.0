@@ -3,7 +3,7 @@ from .utils import *
 import numpy as np
 from fastai2.callback.hook import *
 
-def _get_sfs_idxs(sizes:Sizes) -> List[int]:
+def _get_sfs_idxs(sizes):
     "Get the indexes of the layers where the size of the activation changes."
     feature_szs = [size[-1] for size in sizes]
     sfs_idxs = list(np.where(np.array(feature_szs[:-1]) != np.array(feature_szs[1:]))[0])
