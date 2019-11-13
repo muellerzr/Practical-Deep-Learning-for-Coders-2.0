@@ -2,6 +2,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 from .utils import *
+from fastai2.core.utils import ifnone
 
 def IoU_values(anchs, targs):
     "Compute the IoU values of `anchors` by `targets`."
