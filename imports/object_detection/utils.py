@@ -1,5 +1,5 @@
 import torch
-from torch import FloatTensor
+from torch import FloatTensor, tensor
 import matplotlib.cm as cmx
 import matplotlib.colors as mcolors
 from cycler import cycler
