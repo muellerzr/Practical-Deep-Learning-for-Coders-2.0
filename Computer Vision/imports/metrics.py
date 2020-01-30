@@ -4,6 +4,31 @@ import torch.nn.functional as F
 from fastai2.basics import ifnone
 from .utils import *
 
+def activ_to_bbox(acts, anchors, flatten=True):
+    "Extrapolate bounding boxes on anchors from the model activations."
+    if flatten:
+        acts.mul_(acts.new_tensor([[0.1, 0.1, 0.2, 0.2]])) #Can't remember where those scales come from, but they help regularize
+        centers = anchors[...,2:] * acts[...,:2] + anchors[...,:2]
+        sizes = anchors[...,2:] * torch.exp(acts[...,:2])
+        return torch.cat([centers, sizes], -1)
+    else: return [activ_to_bbox(act,anc) for act,anc in zip(acts, anchors)]
+    return res
+
+def bbox_to_activ(bboxes, anchors, flatten=True):
+    "Return the target of the model on `anchors` for the `bboxes`."
+    if flatten:
+        t_centers = (bboxes[...,:2] - anchors[...,:2]) / anchors[...,2:] 
+        t_sizes = torch.log(bboxes[...,2:] / anchors[...,2:] + 1e-8) 
+        return torch.cat([t_centers, t_sizes], -1).div_(bboxes.new_tensor([[0.1, 0.1, 0.2, 0.2]]))
+    else: return [activ_to_bbox(act,anc) for act,anc in zip(acts, anchors)]
+    return res
+
+def encode_class(idxs, n_classes):
+    target = idxs.new_zeros(len(idxs), n_classes).float()
+    mask = idxs != 0
+    i1s = LongTensor(list(range(len(idxs))))
+    target[i1s[mask],idxs[mask]-1] = 1
+    return target
 
 def create_anchors(sizes, ratios, scales, flatten=True):
     "Create anchor of `sizes`, `ratios` and `scales`."
