@@ -18,20 +18,6 @@ def create_grid(size):
     grid[:, :, 0] = torch.ger(linear_points, torch.ones(W)).expand_as(grid[:, :, 1])
     return grid.view(-1,2)
 
-def create_anchors(sizes, ratios, scales, flatten=True):
-    "Create anchor of `sizes`, `ratios` and `scales`."
-    aspects = [[[s*math.sqrt(r), s*math.sqrt(1/r)] for s in scales] for r in ratios]
-    aspects = torch.tensor(aspects).view(-1,2)
-    anchors = []
-    for h,w in sizes:
-        #4 here to have the anchors overlap.
-        sized_aspects = 4 * (aspects * torch.tensor([2/h,2/w])).unsqueeze(0)
-        base_grid = create_grid((h,w)).unsqueeze(1)
-        n,a = base_grid.size(0),aspects.size(0)
-        ancs = torch.cat([base_grid.expand(n,a,2), sized_aspects.expand(n,a,2)], 2)
-        anchors.append(ancs.view(h,w,a,4))
-    return torch.cat([anc.view(-1,4) for anc in anchors],0) if flatten else anchors
-
 def cthw2tlbr(boxes):
     "Convert center/size format `boxes` to top/left bottom/right corners."
     top_left = boxes[:,:2] - boxes[:,2:]/2
