@@ -1,4 +1,5 @@
 import torch
+from torch import nn
 from .utils import *
 
 def IoU_values(anchs, targs):
