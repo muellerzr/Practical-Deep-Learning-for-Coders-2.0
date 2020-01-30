@@ -1,5 +1,5 @@
 import torch
-from torch import nn
+from torch import nn, LongTensor, FloatTensor
 import torch.nn.functional as F
 from fastai2.basics import ifnone
 from .utils import *
