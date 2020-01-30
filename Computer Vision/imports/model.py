@@ -1,5 +1,6 @@
 from torch import nn
 from .utils import *
+from fastai2.vision.models.unet import _get_sz_change_idxs
 from fastai2.callback.hook import model_sizes
 
 class LateralUpsampleMerge(nn.Module):
@@ -19,7 +20,7 @@ class RetinaNet(nn.Module):
         self.n_classes,self.flatten = n_classes,flatten
         imsize = (256,256)
         sfs_szs = model_sizes(encoder, size=imsize)
-        sfs_idxs = list(reversed(_get_sfs_idxs(sfs_szs)))
+        sfs_idxs = list(reversed(_get_sz_change_idxs(sfs_szs)))
         self.sfs = hook_outputs([encoder[i] for i in sfs_idxs])
         self.encoder = encoder
         self.c5top5 = conv2d(sfs_szs[-1][1], chs, ks=1, bias=True)
