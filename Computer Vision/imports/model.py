@@ -1,6 +1,6 @@
 from torch import nn
 from .utils import *
-from fastai2.vision.models.unet import _get_sz_change_idxs, hook_output
+from fastai2.vision.models.unet import _get_sz_change_idxs, hook_outputs
 from fastai2.layers import init_default
 from fastai2.callback.hook import model_sizes
 
