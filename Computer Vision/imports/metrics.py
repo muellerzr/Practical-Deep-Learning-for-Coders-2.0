@@ -3,6 +3,7 @@ from torch import nn
 import torch.nn.functional as F
 from fastai2.basics import ifnone
 from .utils import *
+from .utils import create_anchors
 
 def IoU_values(anchs, targs):
     "Compute the IoU values of `anchors` by `targets`."
