@@ -4,7 +4,7 @@ from fastai2.vision.models.unet import _get_sz_change_idxs, hook_outputs
 from fastai2.layers import init_default, ConvLayer
 from fastai2.callback.hook import model_sizes
 
-def conv2d(ni:int, nf:int, ks:int=3, stride:int=1, padding:int=None, bias=False, init=nn.init.kaiming_normal):
+def conv2d(ni:int, nf:int, ks:int=3, stride:int=1, padding:int=None, bias=False, init=nn.init.kaiming_normal_):
     "Create and initialize `nn.Conv2d` layer."
     if padding is None: padding = ks // 2
     return init_default(nn.Conv2d(ni, nf, kernel_size=ks, stride=stride, padding=padding, bias=bias), init)
