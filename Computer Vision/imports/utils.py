@@ -5,6 +5,7 @@ import matplotlib.colors as mcolors
 from torch import FloatTensor
 from cycler import cycler
 from .model import *
+from .metrics import *
 
 
 def create_grid(size):
