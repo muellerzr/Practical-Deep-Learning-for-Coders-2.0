@@ -8,47 +8,7 @@ from .model import *
 from .metrics import *
 
 
-def create_grid(size):
-    "Create a grid of a given `size`."
-    H, W = size
-    grid = FloatTensor(H, W, 2)
-    linear_points = torch.linspace(-1+1/W, 1-1/W, W) if W > 1 else tensor([0.])
-    grid[:, :, 1] = torch.ger(torch.ones(H), linear_points).expand_as(grid[:, :, 0])
-    linear_points = torch.linspace(-1+1/H, 1-1/H, H) if H > 1 else tensor([0.])
-    grid[:, :, 0] = torch.ger(linear_points, torch.ones(W)).expand_as(grid[:, :, 1])
-    return grid.view(-1,2)
 
-def cthw2tlbr(boxes):
-    "Convert center/size format `boxes` to top/left bottom/right corners."
-    top_left = boxes[:,:2] - boxes[:,2:]/2
-    bot_right = boxes[:,:2] + boxes[:,2:]/2
-    return torch.cat([top_left, bot_right], 1)
-
-def tlbr2cthw(boxes):
-    "Convert top/left bottom/right format `boxes` to center/size corners."
-    center = (boxes[:,:2] + boxes[:,2:])/2
-    sizes = boxes[:,2:] - boxes[:,:2]
-    return torch.cat([center, sizes], 1)
-
-def match_anchors(anchors, targets, match_thr=0.5, bkg_thr=0.4):
-    "Match `anchors` to targets. -1 is match to background, -2 is ignore."
-    matches = anchors.new(anchors.size(0)).zero_().long() - 2
-    if targets.numel() == 0: return matches
-    ious = IoU_values(anchors, targets)
-    vals,idxs = torch.max(ious,1)
-    matches[vals < bkg_thr] = -1
-    matches[vals > match_thr] = idxs[vals > match_thr]
-    return matches
-
-def intersection(anchors, targets):
-    "Compute the sizes of the intersections of `anchors` by `targets`."
-    ancs, tgts = cthw2tlbr(anchors), cthw2tlbr(targets)
-    a, t = ancs.size(0), tgts.size(0)
-    ancs, tgts = ancs.unsqueeze(1).expand(a,t,4), tgts.unsqueeze(0).expand(a,t,4)
-    top_left_i = torch.max(ancs[...,:2], tgts[...,:2])
-    bot_right_i = torch.min(ancs[...,2:], tgts[...,2:])
-    sizes = torch.clamp(bot_right_i - top_left_i, min=0) 
-    return sizes[...,0] * sizes[...,1]
 
 def get_cmap(N):
     color_norm  = mcolors.Normalize(vmin=0, vmax=N-1)
