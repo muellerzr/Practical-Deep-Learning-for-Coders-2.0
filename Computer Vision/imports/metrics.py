@@ -3,7 +3,21 @@ from torch import nn
 import torch.nn.functional as F
 from fastai2.basics import ifnone
 from .utils import *
-from .utils import create_anchors
+
+
+def create_anchors(sizes, ratios, scales, flatten=True):
+    "Create anchor of `sizes`, `ratios` and `scales`."
+    aspects = [[[s*math.sqrt(r), s*math.sqrt(1/r)] for s in scales] for r in ratios]
+    aspects = torch.tensor(aspects).view(-1,2)
+    anchors = []
+    for h,w in sizes:
+        #4 here to have the anchors overlap.
+        sized_aspects = 4 * (aspects * torch.tensor([2/h,2/w])).unsqueeze(0)
+        base_grid = create_grid((h,w)).unsqueeze(1)
+        n,a = base_grid.size(0),aspects.size(0)
+        ancs = torch.cat([base_grid.expand(n,a,2), sized_aspects.expand(n,a,2)], 2)
+        anchors.append(ancs.view(h,w,a,4))
+    return torch.cat([anc.view(-1,4) for anc in anchors],0) if flatten else anchors
 
 def IoU_values(anchs, targs):
     "Compute the IoU values of `anchors` by `targets`."
