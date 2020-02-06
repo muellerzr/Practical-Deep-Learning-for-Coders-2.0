@@ -16,14 +16,14 @@ The overall schedule is broken up into blocks as such:
 Here is the overall schedule broken down by week:
 *This schedule is subject to change*
 
-**Block 1** (January 15th - February 26th):
+**Block 1** (January 15th - March 4th):
 * Lesson 1: PETs and Custom Datasets (a warm introduction to the DataBlock API)
-* Lesson 2: Image Classification Models from Scratch, Stochastic Gradient Descent
-* Lesson 3: Multi-Label Classification, and Dealing with Unknown Labels
+* Lesson 2: Image Classification Models from Scratch, Stochastic Gradient Descent, Deployment, Exploring the Documentation and Source Code
+* Lesson 3: Multi-Label Classification, Dealing with Unknown Labels, and K-Fold Validation
 * Lesson 4: Image Segmentation, State-of-the-Art in Computer Vision
 * Lesson 5: Style Transfer, `nbdev`, and Deployment
-* Lesson 6: Keypoint Regression and Pose Detection
-* Lesson 7: Image Generation and Object Detection
+* Lesson 6: Keypoint Regression and Object Detection
+* Lesson 7: Pose Detection and Image Generation
 * Lesson 8: Audio
 
 **Block 2** (March 4th - March 25th):
