@@ -48,9 +48,9 @@ def create_grid(size):
     "Create a grid of a given `size`."
     H, W = size
     grid = FloatTensor(H, W, 2)
-    linear_points = torch.linspace(-1+1/W, 1-1/W, W) if W > 1 else tensor([0.])
+    linear_points = torch.linspace(-1+1/W, 1-1/W, W) if W > 1 else torch.tensor([0.])
     grid[:, :, 1] = torch.ger(torch.ones(H), linear_points).expand_as(grid[:, :, 0])
-    linear_points = torch.linspace(-1+1/H, 1-1/H, H) if H > 1 else tensor([0.])
+    linear_points = torch.linspace(-1+1/H, 1-1/H, H) if H > 1 else torch.tensor([0.])
     grid[:, :, 0] = torch.ger(linear_points, torch.ones(W)).expand_as(grid[:, :, 1])
     return grid.view(-1,2)
 
