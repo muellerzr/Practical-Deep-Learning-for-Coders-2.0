@@ -6,26 +6,12 @@ from torch import FloatTensor
 from cycler import cycler
 from .model import *
 from .metrics import *
-
-
+from .inference import *
 
 
 def get_cmap(N):
     color_norm  = mcolors.Normalize(vmin=0, vmax=N-1)
     return cmx.ScalarMappable(norm=color_norm, cmap='Set3').to_rgba
-
-def draw_outline(o, lw):
-    o.set_path_effects([patheffects.Stroke(
-        linewidth=lw, foreground='black'), patheffects.Normal()])
-
-def draw_rect(ax, b, color='white'):
-    patch = ax.add_patch(patches.Rectangle(b[:2], *b[-2:], fill=False, edgecolor=color, lw=2))
-    draw_outline(patch, 4)
-
-def draw_text(ax, xy, txt, sz=14, color='white'):
-    text = ax.text(*xy, txt,
-        verticalalignment='top', color=color, fontsize=sz, weight='bold')
-    draw_outline(text, 1)
 
 def activ_to_bbox(acts, anchors, flatten=True):
     "Extrapolate bounding boxes on anchors from the model activations."
@@ -73,5 +59,4 @@ def show_boxes(boxes):
     for i, bbox in enumerate(boxes):
         bb = bbox.numpy()
         rect = [bb[1]-bb[3]/2, bb[0]-bb[2]/2, bb[3], bb[2]]
-        draw_rect(ax, rect, color=color_list[i%num_color])
-        draw_text(ax, [bb[1]-bb[3]/2,bb[0]-bb[2]/2], str(i), color=color_list[i%num_color])
+        draw_rect(ax, rect, text=f'{txt} {scr:.2f}', color=color_list[i%num_color])
