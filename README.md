@@ -10,6 +10,9 @@ This course will run from January 15th until May and will be live-streamed on Yo
 * A Google account to utilize Google Colaboratory
 * A Paperspace account for Natural Language Processing
 
+**YouTube Channel with Lectures**:
+[Click Here](https://www.youtube.com/channel/UCmKoQOD8uBqsRS8XDdSgrlQ?view_as=subscriber)
+
 The overall schedule is broken up into blocks as such:
 
 **BLOCKS**:
