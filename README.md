@@ -1,4 +1,4 @@
-![](https://github.com/muellerzr/Practical-Deep-Learning-for-Coders-2.0/blob/master/walkwithfastai2.png?raw=true)
+![](https://github.com/muellerzr/Practical-Deep-Learning-for-Coders-2.0/blob/master/walkwithfastai.png?raw=true)
 
 This course will run from January 15th until May and will be live-streamed on YouTube. Each lecture will be between an hour to an hour and 15 minutes, followed by an hour to work on projects related to the course. 
 
@@ -45,6 +45,6 @@ Here is the overall schedule broken down by week:
 * Lesson 3: Other State-of-the-Art NLP Models
 * Lesson 4: Multi-Lingual Data, DeViSe
 
-We have a Group Study discussion [here](https://forums.fast.ai/t/a-walk-with-fastai2-study-group-and-online-lectures-megathread/59929/) on the Fast.AI forums for discussing this material and asking specific questions.
+We have a Group Study discussion [here](https://forums.fast.ai/t/a-walk-with-fastai-study-group-and-online-lectures-megathread/59929/) on the Fast.AI forums for discussing this material and asking specific questions.
 
 * NOTE: This course does **not** have a certification or credit. This is something I have been doing for the past few semesters to help branch fellow Undergraduates at my school into the world of fastai, and this year I am making it much more available. 

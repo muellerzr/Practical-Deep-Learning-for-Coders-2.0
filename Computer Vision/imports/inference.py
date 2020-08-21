@@ -4,7 +4,7 @@ import torch
 import matplotlib.pyplot as plt
 from torch import FloatTensor, LongTensor, tensor
 from .utils import *
-from fastai2.basics import range_of
+from fastai.basics import range_of
 
 
 def _draw_outline(o, lw:int):

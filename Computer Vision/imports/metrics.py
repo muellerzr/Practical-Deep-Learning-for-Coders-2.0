@@ -1,7 +1,7 @@
 import torch
 from torch import nn, LongTensor, FloatTensor
 import torch.nn.functional as F
-from fastai2.basics import ifnone
+from fastai.basics import ifnone
 from .utils import *
 
 def activ_to_bbox(acts, anchors, flatten=True):

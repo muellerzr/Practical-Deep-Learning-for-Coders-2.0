@@ -1,9 +1,9 @@
 from torch import nn
 import torch.nn.functional as F
 from .utils import *
-from fastai2.vision.models.unet import _get_sz_change_idxs, hook_outputs
-from fastai2.layers import init_default, ConvLayer
-from fastai2.callback.hook import model_sizes
+from fastai.vision.models.unet import _get_sz_change_idxs, hook_outputs
+from fastai.layers import init_default, ConvLayer
+from fastai.callback.hook import model_sizes
 
 def conv2d(ni:int, nf:int, ks:int=3, stride:int=1, padding:int=None, bias=False, init=nn.init.kaiming_normal_):
     "Create and initialize `nn.Conv2d` layer."
