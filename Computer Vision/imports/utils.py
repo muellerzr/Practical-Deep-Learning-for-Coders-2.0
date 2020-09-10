@@ -18,7 +18,7 @@ def activ_to_bbox(acts, anchors, flatten=True):
     if flatten:
         acts.mul_(acts.new_tensor([[0.1, 0.1, 0.2, 0.2]])) #Can't remember where those scales come from, but they help regularize
         centers = anchors[...,2:] * acts[...,:2] + anchors[...,:2]
-        sizes = anchors[...,2:] * torch.exp(acts[...,:2])
+        sizes = anchors[...,2:] * torch.exp(acts[...,2:])
         return torch.cat([centers, sizes], -1)
     else: return [activ_to_bbox(act,anc) for act,anc in zip(acts, anchors)]
     return res
